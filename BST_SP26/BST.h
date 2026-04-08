@@ -22,7 +22,7 @@ public:
 	BST();
 	~BST();
 	void insertItem(const T& data);
-	T deleteItem(const T& data);
+	bool deleteItem(const T& data);
 	bool searchItem(const T& data);
 	T getItem(const T& data);
 	void makeEmpty();
@@ -37,6 +37,8 @@ private:
 	Node<T>* root;
 	int length;
 	Node<T>* currentPos;
+
+	Node<T>* getItemLocation(const T& data);
 };
 
 #endif // !BST_H
@@ -103,9 +105,76 @@ inline void BST<T>::insertItem(const T& data)
 }
 
 template<typename T>
-inline T BST<T>::deleteItem(const T& data)
+inline bool BST<T>::deleteItem(const T& data)
 {
-	return T();
+	Node<T>* loc = getItemLocation(data);
+
+	if (loc != nullptr)
+	{
+		Node<T>* prev = loc;
+		if (loc->right != nullptr)
+		{
+			Node<T>* temp = loc->right;
+
+			while (temp->left != nullptr )
+			{
+				prev = temp;
+				temp = temp->left;
+			}
+
+			if (temp->right == nullptr)
+			{
+				loc->data = temp->data;
+				prev->left = nullptr;
+				delete temp;
+				return true;
+			}
+			else
+			{
+				loc->data = temp->data;
+				Node<T>* tempAdj = temp->right;
+				temp->data = tempAdj->data;
+				temp->right = tempAdj->right;
+				temp->left = tempAdj->left;
+				delete tempAdj;
+				return true;
+			}
+		}
+		else if (loc->left != nullptr)
+		{
+			Node<T>* temp = loc->left;
+
+			while (temp->right != nullptr)
+			{
+				prev = temp;
+				temp = temp->right;
+			}
+
+			if (temp->left == nullptr)
+			{
+				loc->data = temp->data;
+				prev->right = nullptr;
+				delete temp;
+				return true;
+			}
+			else
+			{
+				loc->data = temp->data;
+				Node<T>* tempAdj = temp->left;
+				temp->data = tempAdj->data;
+				temp->right = tempAdj->right;
+				temp->left = tempAdj->left;
+				delete tempAdj;
+				return true;
+			}
+		}
+		else
+		{
+			delete loc;
+			return true;
+		}
+	}
+	return false;
 }
 
 template<typename T>
@@ -199,4 +268,24 @@ template<typename T>
 inline T BST<T>::getNextItem()
 {
 	return T();
+}
+
+template<typename T>
+inline Node<T>* BST<T>::getItemLocation(const T& data)
+{
+	Node<T>* loc = root;
+
+	while (loc != nullptr)
+	{
+		if (data < loc->data)
+			loc = loc->left;
+		else if (data > loc->data)
+			loc = loc->right;
+		else if (data == loc->data)
+			return loc;
+		else
+			return nullptr;
+	}
+
+	return nullptr;
 }

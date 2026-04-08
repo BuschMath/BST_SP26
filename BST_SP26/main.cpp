@@ -23,5 +23,10 @@ int main()
 	cout << "Did we find 30: " << tree.searchItem(30) << "\n";
 	cout << "Did we find 42: " << tree.searchItem(42) << "\n";
 
+	tree.deleteItem(25);
+	tree.deleteItem(75);
+
+	tree.print();
+
 	return 0;
 }
