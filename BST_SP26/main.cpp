@@ -18,7 +18,8 @@ int main()
 	tree.insertItem(70);
 	tree.insertItem(110);
 
-	tree.print();
+	//tree.print();
+	tree.printR();
 
 	cout << "Did we find 30: " << tree.searchItem(30) << "\n";
 	cout << "Did we find 42: " << tree.searchItem(42) << "\n";
@@ -26,7 +27,8 @@ int main()
 	tree.deleteItem(25);
 	tree.deleteItem(75);
 
-	tree.print();
+	//tree.print();
+	tree.printR();
 
 	return 0;
 }

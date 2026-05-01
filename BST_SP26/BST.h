@@ -30,6 +30,7 @@ public:
 	bool isFull() const;
 	int getLength() const;
 	void print() const;
+	void printR() const;
 	void resetTree();
 	T getNextItem();
 
@@ -39,6 +40,7 @@ private:
 	Node<T>* currentPos;
 
 	Node<T>* getItemLocation(const T& data);
+	void printR(Node<T>* loc) const;
 };
 
 #endif // !BST_H
@@ -288,4 +290,22 @@ inline Node<T>* BST<T>::getItemLocation(const T& data)
 	}
 
 	return nullptr;
+}
+
+template<typename T>
+inline void BST<T>::printR() const
+{
+	if(root != nullptr)
+		printR(root);
+}
+
+template<typename T>
+inline void BST<T>::printR(Node<T>* loc) const
+{
+	cout << loc->data << "\n";
+
+	if (loc->left != nullptr)
+		printR(loc->left);
+	if (loc->right != nullptr)
+		printR(loc->right);
 }
